@@ -7,8 +7,8 @@ import { getPodcastId } from "@/lib/xiaoyuzhou/utils";
 
 interface PodcastState {
   podcasts: Record<string, PodcastPageProps>;
-  subscribe: (url: string) => void;
-  unsubscribe: (pid: string) => void;
+  subscribe: (url: string | null) => void;
+  unsubscribe: (pid: string | null) => void;
   count: () => number;
 }
 
@@ -17,7 +17,11 @@ export const usePodcastStore = create<PodcastState>()(
     persist(
       (set, get) => ({
         podcasts: {},
-        subscribe: async (url: string) => {
+        subscribe: async (url: string | null) => {
+          if (!url) {
+            console.log("url not found");
+            return;
+          }
           const pid = getPodcastId(url);
           if (!pid) {
             console.log("pid not found");
@@ -30,7 +34,11 @@ export const usePodcastStore = create<PodcastState>()(
             })
           );
         },
-        unsubscribe: (pid: string) => {
+        unsubscribe: (pid: string | null) => {
+          if (!pid) {
+            console.log("pid not found");
+            return;
+          }
           set(
             produce((draft: Draft<PodcastState>) => {
               delete draft.podcasts[pid];

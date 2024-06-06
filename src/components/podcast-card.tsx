@@ -9,7 +9,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { openBrowser } from "@/commands";
 import { Podcast } from "@/lib/xiaoyuzhou";
-import { getPodcastUrl } from "@/lib/xiaoyuzhou/utils";
+import { getPodcastId, getPodcastUrl } from "@/lib/xiaoyuzhou/utils";
 import { useMemo } from "react";
 import { usePodcastStore } from "@/stores/use-podcast-store";
 import dayjs from "dayjs";
@@ -22,7 +22,7 @@ interface Props {
 
 export function PodcastCard({ props }: Props) {
   const url = useMemo(() => getPodcastUrl(props.pid), [props.pid]);
-  const subscribe = usePodcastStore((state) => state.subscribe);
+  const { subscribe, unsubscribe } = usePodcastStore((state) => state);
   return (
     <Card className="rounded-md overflow-hidden">
       <img
@@ -39,12 +39,30 @@ export function PodcastCard({ props }: Props) {
           {dayjs(props.latestEpisodePubDate).format("YYYY年MM月DD日")}
         </Badge>
       </CardContent>
-      <CardFooter className="flex gap-2">
-        <Button size="sm" onClick={() => openBrowser(url)}>
-          打开网页
+      <CardFooter className="grid grid-cols-3 p-0 border-t">
+        <Button
+          size="sm"
+          variant="ghost"
+          className="rounded-none"
+          onClick={() => openBrowser(url)}
+        >
+          打开
         </Button>
-        <Button size="sm" onClick={() => subscribe(url)}>
-          刷新数据
+        <Button
+          size="sm"
+          variant="ghost"
+          className="rounded-none border-l"
+          onClick={() => subscribe(url)}
+        >
+          刷新
+        </Button>
+        <Button
+          size="sm"
+          variant="ghost"
+          className="rounded-none border-l"
+          onClick={() => unsubscribe(getPodcastId(url))}
+        >
+          取消
         </Button>
       </CardFooter>
     </Card>
