@@ -1,8 +1,11 @@
 {
   "name": "xiaoyuzhou-desktop",
-  "private": true,
   "version": "0.0.1",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yc-w-cn/xiaoyuzhou-desktop.git"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
@@ -40,5 +43,6 @@
     "tailwindcss": "^3.4.3",
     "typescript": "^5.0.2",
     "vite": "^5.0.0"
-  }
+  },
+  "license": "MIT"
 }
